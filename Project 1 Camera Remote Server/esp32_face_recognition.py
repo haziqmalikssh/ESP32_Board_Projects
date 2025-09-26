@@ -8,7 +8,7 @@ import mss
 from flask import Flask, Response
 
 # --- Manual Paths to Models ---
-# ⚠️ VERIFY THIS PATH IS CORRECT ⚠️
+# ---VERIFY THIS PATH IS CORRECT ---
 MODELS_PATH = r"C:\Users\n\AppData\Local\Programs\Python\Python312\Lib\site-packages\face_recognition\models"
 
 # --- Global Frame & Lock ---
