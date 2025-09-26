@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ESP32-CAM Stream</title>
+    <style>
+      /* NEW STYLE: Remove centering and make the body flush with the top-left corner */
+      body { 
+          margin: 0; 
+          padding: 0; 
+          background: #222; 
+          /* Remove 'display: flex; justify-content: center;' */
+      }
+      /* Ensure the image itself is also flush */
+      img {
+          position: absolute; /* Place image absolutely */
+          top: 0; 
+          left: 0;
+          max-width: none; /* Ignore max-width */
+          border-radius: 0;
+          box-shadow: none;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="http://192.168.1.4/stream" alt="ESP32-CAM Stream">
+  </body>
+</html>

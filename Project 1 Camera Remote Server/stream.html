@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Flask Stream</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: sans-serif;
+            flex-direction: column;
+            color: #333;
+            text-align: center;
+        }
+        h1 {
+            color: #007bff;
+        }
+        img {
+            border: 3px solid #555;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 640px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Processed Video Stream</h1>
+    <!-- Make sure to use the correct IP address from your terminal output -->
+    <!-- The Flask stream is served from the /video_feed endpoint -->
+    <img src="http://192.168.1.13:5000/video_feed" alt="Flask Video Stream">
+    <p>If the stream doesn't appear, check the IP address in your terminal.</p>
+</body>
+</html>
