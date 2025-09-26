@@ -77,3 +77,4 @@ recordings/
 *.exe
 *.dll
 *.so
+!esp32_camera_extension_schematic.jpg
