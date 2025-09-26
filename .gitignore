@@ -1,0 +1,79 @@
+# ------------------------------------
+# 1. Bytecode, Compilation & Temporary Files
+# ------------------------------------
+*.pyc
+*.pyo
+*.pyd
+*.tmp
+*.bak
+__pycache__/
+
+# ------------------------------------
+# 2. Virtual Environments
+# ------------------------------------
+venv/
+env/
+ENV/
+
+# ------------------------------------
+# 3. Development & Build Artifacts
+# ------------------------------------
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+*.log
+
+# Python packaging & builds
+build/
+dist/
+*.egg-info/
+*.whl
+
+# Testing & Caching
+coverage/
+.pytest_cache/
+*.prof
+
+# ------------------------------------
+# 4. Sensitive Files and Local Configs
+# ------------------------------------
+config.json
+secrets.txt
+*.key
+*.env
+
+# ------------------------------------
+# 5. Generated Media and Captures
+# ------------------------------------
+captures/
+frames/
+videos/
+images/
+media/
+output/
+snapshots/
+recordings/
+*.jpg
+*.jpeg
+*.png
+*.mp4
+*.avi
+
+# ------------------------------------
+# 6. Commonly Ignored Python Scripts/Libraries
+# NOTE: Only needed if installed directly in the root, otherwise VENV handles this.
+# Removing these if they are inside venv is safer.
+# If 'run.py' is your main script, UNCOMMENT/REMOVE that line below.
+# If 'face.jpg' is your initial setup image, UNCOMMENT/REMOVE that line below.
+# run.py
+# face.jpg
+
+# ------------------------------------
+# 7. Executables and System Files
+# ------------------------------------
+*.exe
+*.dll
+*.so
