@@ -1,6 +1,24 @@
-```markdown
+Here’s an improved version of your README with a dedicated section for the video and a placeholder for project images. I’ll also explain where and how to embed images so they look good.
+
+````markdown
 # ESP32-CAM Face Recognition Server
 This project streams video from an ESP32-CAM, processes it on a computer to detect faces in real-time, and displays the result on a web browser.
+
+## Demo Video
+Watch a short demo of the project in action:
+
+[![ESP32-CAM Face Recognition Demo](https://img.youtube.com/vi/kTCV-fLhWL0/0.jpg)](https://youtube.com/shorts/kTCV-fLhWL0)
+
+> Click the thumbnail above to watch the video on YouTube.
+
+## Project Images
+You can showcase images of your setup, output screenshots, or face detection results here.  
+For example:
+
+![ESP32-CAM Module](images/esp32-project_image1.jpg)
+![Face Detection Output](images/project_image2.jpg)
+
+> Place your images inside a folder called `images/` in your repository and update the file names in the Markdown links above.
 
 ## Features
 - **Live Stream**: View the ESP32-CAM feed in a browser.
@@ -24,11 +42,12 @@ pip install numpy
 pip install dlib
 pip install face-recognition
 pip install mss
-```
+````
 
 **Note**: The `dlib` library may take a while to install as it compiles from source.
 
 ## Usage
+
 1. Flash your ESP32-CAM and open its video stream in a web browser on your computer.
 2. Ensure the browser window with the stream is visible.
 3. Run the Python script from your terminal:
@@ -40,7 +59,19 @@ python esp32_face_recognition.py
 4. Open a browser and navigate to the IP address shown in your terminal to view the processed stream.
 
 ## Troubleshooting
-- **Freezing**: If the terminal output freezes, it may be due to slow processing.
-- **Stream Won't Load**: Check your firewall settings to ensure that TCP traffic on port 5000 is allowed.
-- **Stopping the Server**: Press `CTRL + C` in the terminal to stop the program.
+
+* **Freezing**: If the terminal output freezes, it may be due to slow processing.
+* **Stream Won't Load**: Check your firewall settings to ensure that TCP traffic on port 5000 is allowed.
+* **Stopping the Server**: Press `CTRL + C` in the terminal to stop the program.
+
+```
+
+---
+
+### Where to Put Images
+- Create an `images/` folder at the root of your repo.
+- Add your pictures/screenshots there.
+- Update the image paths in the README (e.g., `images/esp32-cam-setup.jpg`) so they point to your actual files.
+
+Would you like me to also show you how to make the video autoplay in an embedded iframe (instead of opening in YouTube when clicked)?
 ```
