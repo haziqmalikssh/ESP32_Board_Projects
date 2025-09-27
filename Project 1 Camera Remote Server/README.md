@@ -1,4 +1,4 @@
-````markdown
+```markdown
 # ESP32-CAM Face Recognition Server
 This project streams video from an ESP32-CAM, processes it on a computer to detect faces in real-time, and displays the result on a web browser.
 
@@ -40,7 +40,7 @@ pip install numpy
 pip install dlib
 pip install face-recognition
 pip install mss
-````
+```
 
 **Note**: The `dlib` library may take a while to install as it compiles from source.
 
@@ -58,9 +58,7 @@ python esp32_face_recognition.py
 
 ## Troubleshooting
 
-* **Freezing**: If the terminal output freezes, it may be due to slow processing.
-* **Stream Won't Load**: Check your firewall settings to ensure that TCP traffic on port 5000 is allowed.
-* **Stopping the Server**: Press `CTRL + C` in the terminal to stop the program.
-
-```
+- **Freezing**: If the terminal output freezes, it may be due to slow processing.
+- **Stream Won't Load**: Check your firewall settings to ensure that TCP traffic on port 5000 is allowed.
+- **Stopping the Server**: Press `CTRL + C` in the terminal to stop the program.
 ```
