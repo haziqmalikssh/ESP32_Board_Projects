@@ -12,14 +12,14 @@ Watch a short demo of the project in action:
 
 ## Project Images
 
-You can showcase images of your setup, output screenshots, or face detection results here.
+images of setup here.
 
 For example:
 
 ![ESP32-CAM Module](images/project_image1.jpg)
 ![Face Detection Output](images/project_image2.jpg)
 
-> Place your images inside a folder called `images/` in your repository and update the file names in the Markdown links above.
+> images inside a folder called `images/` in  repository.
 
 ## Features
 
