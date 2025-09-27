@@ -1,8 +1,9 @@
-```markdown
 # ESP32-CAM Face Recognition Server
+
 This project streams video from an ESP32-CAM, processes it on a computer to detect faces in real-time, and displays the result on a web browser.
 
 ## Demo Video
+
 Watch a short demo of the project in action:
 
 [![ESP32-CAM Face Recognition Demo](https://img.youtube.com/vi/kTCV-fLhWL0/0.jpg)](https://youtube.com/shorts/kTCV-fLhWL0)
@@ -10,7 +11,9 @@ Watch a short demo of the project in action:
 > Click the thumbnail above to watch the video on YouTube.
 
 ## Project Images
-You can showcase images of your setup, output screenshots, or face detection results here.  
+
+You can showcase images of your setup, output screenshots, or face detection results here.
+
 For example:
 
 ![ESP32-CAM Module](images/project_image1.jpg)
@@ -19,6 +22,7 @@ For example:
 > Place your images inside a folder called `images/` in your repository and update the file names in the Markdown links above.
 
 ## Features
+
 - **Live Stream**: View the ESP32-CAM feed in a browser.
 - **Face Detection**: Real-time analysis of the video for faces.
 - **Visual Feedback**: Green rectangles highlight detected faces on the live stream.
@@ -26,11 +30,14 @@ For example:
 - **Console Logging**: Provides live feedback in the terminal, indicating when faces are detected.
 
 ## Prerequisites
+
 ### Hardware
+
 - ESP32-CAM module
 - Power supply for ESP32-CAM
 
 ### Software
+
 Install the following Python libraries using pip. It is highly recommended to install them in the following order to resolve potential dependency issues:
 
 ```bash
@@ -61,4 +68,3 @@ python esp32_face_recognition.py
 - **Freezing**: If the terminal output freezes, it may be due to slow processing.
 - **Stream Won't Load**: Check your firewall settings to ensure that TCP traffic on port 5000 is allowed.
 - **Stopping the Server**: Press `CTRL + C` in the terminal to stop the program.
-```
