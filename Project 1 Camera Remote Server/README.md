@@ -13,7 +13,7 @@ Watch a short demo of the project in action:
 You can showcase images of your setup, output screenshots, or face detection results here.  
 For example:
 
-![ESP32-CAM Module](images/esp32-project_image1.jpg)
+![ESP32-CAM Module](images/project_image1.jpg)
 ![Face Detection Output](images/project_image2.jpg)
 
 > Place your images inside a folder called `images/` in your repository and update the file names in the Markdown links above.
@@ -63,13 +63,4 @@ python esp32_face_recognition.py
 * **Stopping the Server**: Press `CTRL + C` in the terminal to stop the program.
 
 ```
-
----
-
-### Where to Put Images
-- Create an `images/` folder at the root of your repo.
-- Add your pictures/screenshots there.
-- Update the image paths in the README (e.g., `images/esp32-cam-setup.jpg`) so they point to your actual files.
-
-Would you like me to also show you how to make the video autoplay in an embedded iframe (instead of opening in YouTube when clicked)?
 ```
