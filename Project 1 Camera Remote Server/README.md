@@ -1,5 +1,3 @@
-Here’s an improved version of your README with a dedicated section for the video and a placeholder for project images. I’ll also explain where and how to embed images so they look good.
-
 ````markdown
 # ESP32-CAM Face Recognition Server
 This project streams video from an ESP32-CAM, processes it on a computer to detect faces in real-time, and displays the result on a web browser.
