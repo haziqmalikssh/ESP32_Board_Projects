@@ -25,7 +25,6 @@ For example:
 
 - **Live Stream**: View the ESP32-CAM feed in a browser.
 - **Face Detection**: Real-time analysis of the video for faces.
-- **Visual Feedback**: Green rectangles highlight detected faces on the live stream.
 - **Web Server**: Serves the processed video stream to your local network.
 - **Console Logging**: Provides live feedback in the terminal, indicating when faces are detected.
 
