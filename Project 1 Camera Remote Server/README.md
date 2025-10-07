@@ -8,7 +8,7 @@ Watch a short demo of the project in action:
 
 [![ESP32-CAM Face Recognition Demo](https://img.youtube.com/vi/kTCV-fLhWL0/0.jpg)](https://youtube.com/shorts/kTCV-fLhWL0)
 
-> Click the thumbnail above to watch the video on YouTube.
+> Click the thumbnail above to watch the video.
 
 ## Project Images
 
