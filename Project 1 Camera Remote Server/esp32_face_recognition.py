@@ -97,10 +97,10 @@ def stream_processor():
                 # Check if any faces were detected
                 if len(face_locations) > 0:
                     feedback_text = f"Faces detected: {len(face_locations)}"
-                    print(f"✅ Faces detected! Found {len(face_locations)}.") # Console message
+                    print(f" Faces detected! Found {len(face_locations)}.") # Console message
                 else:
                     feedback_text = "No faces detected"
-                    print(f"❌ No faces detected.") # Console message
+                    print(f" No faces detected.") # Console message
 
                 # --- Draw feedback text on the frame ---
                 cv2.putText(
