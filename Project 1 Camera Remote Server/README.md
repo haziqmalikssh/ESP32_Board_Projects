@@ -7,7 +7,8 @@ This project streams video from an ESP32-CAM, processes it on a computer to dete
 Watch a short demo of the project in action:
 
 [![ESP32-CAM Face Recognition Demo](https://img.youtube.com/vi/kTCV-fLhWL0/0.jpg)](https://youtu.be/IKgGmIq1VX8)
-*also at https://youtube.com/shorts/kTCV-fLhWL0
+
+also at https://youtube.com/shorts/kTCV-fLhWL0
 > Click the thumbnail above to watch the video.
 
 ## Project Images
