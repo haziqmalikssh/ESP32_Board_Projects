@@ -44,8 +44,6 @@ Install the following Python libraries using pip. It is highly recommended to in
 pip install flask
 pip install opencv-python
 pip install numpy
-pip install dlib
-pip install face-recognition
 pip install mss
 ```
 
