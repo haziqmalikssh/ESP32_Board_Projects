@@ -1,27 +1,231 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>ESP32-CAM Stream</title>
-    <style>
-      /* NEW STYLE: Remove centering and make the body flush with the top-left corner */
-      body { 
-          margin: 0; 
-          padding: 0; 
-          background: #222; 
-          /* Remove 'display: flex; justify-content: center;' */
-      }
-      /* Ensure the image itself is also flush */
-      img {
-          position: absolute; /* Place image absolutely */
-          top: 0; 
-          left: 0;
-          max-width: none; /* Ignore max-width */
-          border-radius: 0;
-          box-shadow: none;
-      }
-    </style>
-  </head>
-  <body>
-    <img src="http://192.168.1.30/stream" alt="ESP32-CAM Stream">
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ESP32-CAM viewer — 192.168.1.31</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;display:flex;flex-direction:column;gap:12px;padding:18px;max-width:980px;margin:0 auto}
+  header{display:flex;align-items:center;gap:12px}
+  label{font-size:14px}
+  input[type=text]{padding:8px;border:1px solid #ccc;border-radius:6px;min-width:220px}
+  button{padding:8px 10px;border-radius:8px;border:1px solid #888;cursor:pointer;background:#f2f2f2}
+  .viewer{border:1px solid #ddd;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:10px;align-items:center;min-height:300px; background:#fafafa}
+  img, iframe, canvas{max-width:100%;border-radius:6px;display:block}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  small.hint{color:#666}
+  .error{color:#b00020}
+</style>
+</head>
+<body>
+<header>
+  <h2>ESP32-CAM viewer</h2>
+  <small class="hint">(pre-filled with <code>192.168.1.31</code>)</small>
+</header>
+
+<div class="controls">
+  <label>Device base (IP or URL):
+    <input id="baseUrl" type="text" value="http://192.168.1.31" />
+  </label>
+
+  <label>Endpoint:
+    <select id="endpoint">
+      <option value="/stream">/stream (common MJPEG)</option>
+      <option value="/mjpeg">/mjpeg</option>
+      <option value="/jpeg">/jpeg</option>
+      <option value="/jpg">/jpg</option>
+      <option value="/capture">/capture</option>
+      <option value="/photo.jpg">/photo.jpg</option>
+      <option value="/camera">/camera</option>
+      <option value="/">root (try default web page)</option>
+      <option value="">Custom (enter full URL below)</option>
+    </select>
+  </label>
+
+  <label>or full URL:
+    <input id="fullUrl" type="text" placeholder="http://192.168.1.31/whatever" />
+  </label>
+
+  <button id="showBtn">Show</button>
+  <button id="snapshotBtn">Snapshot (poll)</button>
+  <button id="stopPollBtn" disabled>Stop poll</button>
+  <small class="hint">Snapshot interval:
+    <input id="interval" type="number" value="1000" style="width:80px" /> ms
+  </small>
+</div>
+
+<div class="viewer" id="viewer">
+  <div id="status">Ready — choose an endpoint and click <strong>Show</strong>.</div>
+  <div id="content" style="width:100%;display:flex;justify-content:center;"></div>
+  <div id="explain" class="hint">This page will attempt different display methods (MJPEG via &lt;img&gt;, snapshot polling, or iframe). If nothing shows, try the "Snapshot (poll)" button or enter a different endpoint path used by your ESP32 firmware.</div>
+  <div id="error" class="error" style="display:none"></div>
+</div>
+
+<script>
+(() => {
+  const baseInput = document.getElementById('baseUrl');
+  const epSelect = document.getElementById('endpoint');
+  const fullInput = document.getElementById('fullUrl');
+  const showBtn = document.getElementById('showBtn');
+  const snapshotBtn = document.getElementById('snapshotBtn');
+  const stopPollBtn = document.getElementById('stopPollBtn');
+  const content = document.getElementById('content');
+  const status = document.getElementById('status');
+  const errorEl = document.getElementById('error');
+  const intervalInput = document.getElementById('interval');
+
+  let pollTimer = null;
+
+  function setStatus(txt) { status.innerHTML = txt; }
+  function setError(txt) { errorEl.style.display = txt ? 'block' : 'none'; errorEl.textContent = txt || ''; }
+
+  function buildUrl() {
+    const full = fullInput.value.trim();
+    if (full) return full;
+    let base = baseInput.value.trim();
+    if (!base) base = 'http://192.168.1.31';
+    const ep = epSelect.value;
+    if (!ep) return base;
+    // if endpoint starts with '/', join carefully
+    return base.replace(/\/+$/, '') + (ep.startsWith('/') ? ep : '/' + ep);
+  }
+
+  // Try to show as <img> (works for MJPEG and single JPEG resources)
+  function showAsImg(url) {
+    clearContent();
+    setStatus('Displaying as <img>. If MJPEG, it will update continuously. If a single JPEG, it will show one frame.');
+    setError('');
+    const img = document.createElement('img');
+    img.alt = 'ESP32-CAM';
+    // Add cache-busting for single-shot images so reloads show fresh image
+    img.src = url + (url.includes('?') ? '&' : '?') + 'cb=' + Date.now();
+    img.onerror = () => {
+      setError('Image failed to load. Browser error or CORS blocking might be preventing access.');
+    };
+    content.appendChild(img);
+  }
+
+  // Show as iframe (useful if the device hosts an HTML page)
+  function showAsIframe(url) {
+    clearContent();
+    setStatus('Displaying inside an iframe (device web page).');
+    setError('');
+    const ifr = document.createElement('iframe');
+    ifr.src = url;
+    ifr.width = '100%';
+    ifr.height = '480';
+    ifr.loading = 'eager';
+    ifr.sandbox = '';
+    ifr.onerror = () => setError('Iframe failed to load (CORS / same-origin policies may hide some errors).');
+    content.appendChild(ifr);
+  }
+
+  // Snapshot polling (fetch image repeatedly and show latest)
+  function startSnapshotPolling(url, intervalMs=1000) {
+    stopSnapshotPolling();
+    setStatus('Starting snapshot polling every ' + intervalMs + ' ms');
+    setError('');
+    const img = document.createElement('img');
+    img.alt = 'ESP32 snapshot';
+    content.innerHTML = '';
+    content.appendChild(img);
+
+    const doFetch = () => {
+      // Use cache-busting query param
+      img.src = url + (url.includes('?') ? '&' : '?') + 'cb=' + Date.now();
+    };
+
+    doFetch();
+    pollTimer = setInterval(doFetch, intervalMs);
+    snapshotBtn.disabled = true;
+    stopPollBtn.disabled = false;
+  }
+
+  function stopSnapshotPolling() {
+    if (pollTimer) {
+      clearInterval(pollTimer);
+      pollTimer = null;
+    }
+    snapshotBtn.disabled = false;
+    stopPollBtn.disabled = true;
+    setStatus('Polling stopped.');
+  }
+
+  function clearContent() {
+    stopSnapshotPolling();
+    content.innerHTML = '';
+  }
+
+  // Basic heuristic: if endpoint string contains "stream" or "mjpeg", try img (MJPEG).
+  // If endpoint is "/" or empty, try iframe first.
+  showBtn.addEventListener('click', () => {
+    setError('');
+    const url = buildUrl();
+    if (!url) { setError('Please fill a base IP or full URL.'); return; }
+
+    clearContent();
+
+    if (url.endsWith('/') || url.endsWith('/index.html') || epSelect.value === '/') {
+      // try iframe first
+      try { showAsIframe(url); } catch (e) { setError(String(e)); }
+      return;
+    }
+
+    const path = url.split('?')[0].toLowerCase();
+    // Common MJPEG endpoints
+    if (path.includes('stream') || path.includes('mjpeg')) {
+      showAsImg(url);
+      return;
+    }
+
+    // endpoints that are likely single-shot JPEGs: "capture", "jpeg", "jpg", "photo"
+    if (path.match(/capture|jpeg|jpg|photo|snapshot/)) {
+      // default to snapshot polling so you get a live-ish view
+      startSnapshotPolling(url, Number(intervalInput.value) || 1000);
+      return;
+    }
+
+    // fallback: try image first, then iframe
+    // show image element (works if it's an MJPEG or direct JPEG)
+    showAsImg(url);
+  });
+
+  snapshotBtn.addEventListener('click', () => {
+    setError('');
+    const url = buildUrl();
+    if (!url) { setError('Please fill a base IP or full URL.'); return; }
+    startSnapshotPolling(url, Number(intervalInput.value) || 1000);
+  });
+
+  stopPollBtn.addEventListener('click', () => {
+    stopSnapshotPolling();
+  });
+
+  // quick auto-try: attempt common endpoints silently
+  (function tryAuto() {
+    const candidates = [
+      '/stream',
+      '/stream/video.mjpeg',
+      '/mjpeg',
+      '/capture',
+      '/jpeg',
+      '/jpg',
+      '/photo.jpg',
+      '/'
+    ];
+    const base = baseInput.value.trim() || 'http://192.168.1.31';
+    // Try first candidate as img to give immediate feedback to user
+    const candidateUrl = base.replace(/\/+$/, '') + candidates[0];
+    // Not performing fetch due to CORS; just prefill selection so user can click Show
+    epSelect.value = '/stream';
+  })();
+
+  // Allow Enter key on full URL input to show
+  fullInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') showBtn.click(); });
+  baseInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') showBtn.click(); });
+
+})();
+</script>
+
+</body>
 </html>

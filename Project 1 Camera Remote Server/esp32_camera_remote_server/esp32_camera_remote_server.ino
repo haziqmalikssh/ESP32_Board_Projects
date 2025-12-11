@@ -4,7 +4,7 @@
 
 // ====== EDIT YOUR WiFi CREDENTIALS HERE ======
 const char* ssid = "MEGA-2.4G-000539";
-const char* password = "password";
+const char* password = "53feac2f";
 
 // Create a web server on port 80
 WebServer server(80);
